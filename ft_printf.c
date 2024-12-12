@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf_utils_1.c                                :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/25 09:15:02 by beldemir          #+#    #+#             */
-/*   Updated: 2024/11/25 09:16:10 by beldemir         ###   ########.fr       */
+/*   Created: 2024/12/12 20:17:52 by beldemir          #+#    #+#             */
+/*   Updated: 2024/12/12 20:34:49 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "minitalk.h"
 
-int	ft_print_c(int const c)
+static int	ft_print_c(char c)
 {
-	int	count;
-
-	count = write(1, &c, 1);
-	if (count == 1)
-		return (1);
-	return (-1);
+	return (write(1, &c, 1));
 }
 
-int	ft_print_s(char *s)
+static int	ft_print_s(char *s)
 {
 	int	count;
 	int	i;
@@ -30,7 +25,7 @@ int	ft_print_s(char *s)
 	i = 0;
 	count = 0;
 	if (s == NULL)
-		return (ft_print_s(NULLSTRING));
+		return (ft_print_s("(null)"));
 	while (s[i] != '\0')
 	{
 		count += ft_print_c(s[i]);
@@ -39,17 +34,13 @@ int	ft_print_s(char *s)
 	return (count);
 }
 
-int	ft_print_i_d(int n, int flag)
+static int	ft_print_i_d(int n)
 {
 	int	count;
 
 	count = 0;
-	if (n == INT_MIN)
+	if (n == -2147483648)
 		return (ft_print_s("-2147483648"));
-	if (flag == 3 && n >= 0)
-		count += ft_print_c('+');
-	else if (flag == 2 && n >= 0)
-		count += ft_print_c(' ');
 	if (n < 0)
 	{
 		count += ft_print_c('-');
@@ -59,25 +50,36 @@ int	ft_print_i_d(int n, int flag)
 		count += ft_print_c(n + '0');
 	else
 	{
-		count += ft_print_i_d(n / 10, 0);
+		count += ft_print_i_d(n / 10);
 		count += ft_print_c(n % 10 + '0');
 	}
 	return (count);
 }
 
-int	ft_print_u(unsigned int n)
+static int	ft_check_parameter(const char c, va_list *args)
 {
-	int	count;
+	if (c == 'i' || c == 'd')
+		return (ft_print_i_d(va_arg(*args, int)));
+	if (c == 's')
+		return (ft_print_s(va_arg(*args, char *)));
+	return (0);
+}
 
+int	ft_printf(const char *str, ...)
+{
+	va_list	args;
+	int		count;
+
+	va_start(args, str);
 	count = 0;
-	if (n > 9)
+	while (*str)
 	{
-		count += ft_print_i_d(n / 10, 0);
-		count += ft_print_i_d(n % 10, 0);
+		if (*str == '%')
+			count += ft_check_parameter(*++str, &args);
+		else
+			count += ft_print_c(*str);
+		str++;
 	}
-	else if (n <= 9)
-		count += ft_print_c(n + '0');
-	if (count < 0)
-		return (-1);
+	va_end(args);
 	return (count);
 }
