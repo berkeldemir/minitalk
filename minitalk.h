@@ -6,13 +6,14 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 07:42:02 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/14 20:09:17 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/14 20:32:16 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
+# include <stdlib.h>
 # include <signal.h>
 # include <unistd.h>
 # include <stdarg.h>
@@ -23,8 +24,5 @@
 # define SETBLU "\033[0;34m"
 # define SETCYN "\033[0;36m"
 # define SETWHT "\033[0m"
-
-int	ft_printf(const char *str, ...);
-
 
 #endif
