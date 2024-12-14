@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:09:54 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/14 20:59:27 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/14 21:07:55 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,12 @@ static void ft_send(pid_t pid, char *msg)
 			i = (msg[i] >> pos) & 1;
 			if (i == 0)
 				if (kill(pid, SIGUSR1) == -1)
-					return (ft_printf("%s%s%s", SETRED, "ERROR: Wrong PID.", SETWHT));
+					return (-1);
 			else
 				if (kill(pid, SIGUSR2) == -1)
-					return (ft_printf("%s%s%s", SETRED, "ERROR: Wrong PID.", SETWHT));
+					return (-1);
 			bit--;
-			usleep(20);
+			usleep(50);
 		}
 		i++;	
 	}
@@ -81,17 +81,17 @@ int main(int ac, char **av)
 	int		res;
 	pid_t	pid;
 	
+	ft_banner(pid);
 	if (ac != 3)
 		return (ft_printf("%s%s%s", SETRED, "Invalid entry.", SETWHT), -1)
 	pid = ft_strtopid(av[1]);
 	if (pid == -1)
 		return (ft_printf("%s%s%s\n", SETRED, "Invalid PID!",SETWHT), -1);
 	if (av[2][0] == '\0')
-		return (ft_printf("%s%s%s\n", SETRED, "Invalid message.", SETWHT), -1);
-	ft_banner(pid);
+		return (ft_printf("%s%s%s\n", SETRED, "Invalid msg.", SETWHT), -1);
 	ft_printf("MESSAGE:\n%s\n", av[2]);
 	res = ft_send(pid, av[2]);
-	if (res == 1)
+	if (res == 0)
 	{
 		ft_printf("%s%s%s", SETGRN, "STATUS: Sent successfully.",SETWHT);
 		exit(EXIT_SUCCESS);
