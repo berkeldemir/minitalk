@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/17 19:08:14 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:21:57 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int main(void)
 	{
 		signal(SIGUSR1, ft_receive);
 		signal(SIGUSR2, ft_receive);
-		usleep(50);
+		usleep(10);
 	}
 	return (0);
 }

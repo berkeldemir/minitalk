@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:09:54 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/17 18:57:10 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/17 19:33:14 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ static int ft_send(pid_t pid, char *msg)
 		{
 			j = (msg[i] >> bit) & 1;
 			if (j == 0)
+			{
 				if (kill(pid, SIGUSR1) == -1)
 					return (-1);
+			}
 			else
 				if (kill(pid, SIGUSR2) == -1)
-					return (-1);
+					return (0);
 			bit--;
 			usleep(50);
 		}
@@ -77,29 +79,27 @@ static int ft_send(pid_t pid, char *msg)
 
 int main(int ac, char **av)
 {
-	char	*output = "heyyo";
 	int		res;
 	pid_t	pid;
 	
-	pid = ft_strtopid(av[1]);
-	ft_banner(pid);
 	if (ac != 3)
-		return (ft_printf("%s%s%s", SETRED, "Invalid entry.", SETWHT), -1);
-	if (pid == -1)
-		return (ft_printf("%s%s%s\n", SETRED, "Invalid PID!",SETWHT), -1);
+		return (ft_printf("%s%s%s\n", SETRED, ERRARG, SETWHT), -1);
 	if (av[2][0] == '\0')
-		return (ft_printf("%s%s%s\n", SETRED, "Invalid msg.", SETWHT), -1);
-	ft_printf("%s%s%s%s\n", SETYLW, "MESSAGE:\n", SETWHT, av[2]);
+		return (ft_printf("%s%s%s\n", SETRED, ERRMSG, SETWHT), -1);
+	pid = ft_strtopid(av[1]);
+	if (pid == -1)
+		return (ft_printf("%s%s%s\n", SETRED, ERRPID, SETWHT), -1);
+	ft_banner(pid);
+	ft_printf("%s%s%s\n", SETYLW, "MESSAGE:\n", av[2]);
 	res = ft_send(pid, av[2]);
 	if (res == 0)
 	{
-		ft_printf("%s%s%s", SETGRN, "STATUS:\n Sent successfully.",SETWHT);
+		ft_printf("%s%s%s\n", SETGRN, MSGSUCS, SETWHT);
 		exit(EXIT_SUCCESS);
 	}
 	else
 	{
-		ft_printf("%s%s%s", SETRED, "STATUS:\nA problem occured.\n",SETWHT);
+		ft_printf("%s%s%s\n", SETRED, MSGFAIL, SETWHT);
 		exit(EXIT_FAILURE);
 	}
-	return (0);
 } 
