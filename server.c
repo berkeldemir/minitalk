@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/17 19:21:57 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:42:27 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,19 @@ static void	ft_banner(int pid) {
 
 static void	ft_receive(int signal)
 {
-	static int	res = 0;
+	static unsigned char	x;
+	static int				i;
 
-	res = res << 1;
 	if (signal == SIGUSR1)
-		res = res | 1;
-	bit--;
-	if (bit < 0)
+		x = x | 1;
+	i++;
+	if (i == 8)
 	{
-		bit = 7;
-		write(1, &res, 1);
-		res = 0;
+		ft_printf("%c", x);
+		i = 0;
+		x = 0;
 	}
+	x = x << 1;
 }
 
 int main(void)
@@ -51,11 +52,9 @@ int main(void)
 	
 	pid = getpid();
 	ft_banner(pid);
+	signal (SIGUSR1, ft_receive);
+	signal (SIGUSR2, ft_receive);
 	while (1)
-	{
-		signal(SIGUSR1, ft_receive);
-		signal(SIGUSR2, ft_receive);
-		usleep(10);
-	}
+		pause();
 	return (0);
 }

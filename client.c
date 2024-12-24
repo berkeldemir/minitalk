@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:09:54 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/17 20:04:49 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/24 13:40:56 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static pid_t	ft_strtopid(char *str)
 	return ((pid_t)num);
 }
 
-static void ft_banner(int pid) {
+static void ft_banner(int pid, char *str) {
 	ft_printf(SETCYN);
     ft_printf(".-------------------------------.\n");
 	ft_printf("|        _     _ _       _ _    |\n");
@@ -44,43 +44,31 @@ static void ft_banner(int pid) {
 	ft_printf("|          by /beldemir         |\n");
 	ft_printf("'-------------------------------'\n");
 	ft_printf("SELECTED PID:\n%d\n", pid);
+	ft_printf("%s%s%s%s%s", SETYLW, "MESSAGE:\n", str, "\n", SETWHT);
 	ft_printf(SETWHT);
 }
 
-static int ft_send(pid_t pid, char *msg)
+static int ft_send(pid_t pid, char c)
 {
 	int	i;
-	int	j;
-	int	bit;
 
-	i = 0;
-	j = 0;
-	while (msg[i] != 0)
+	i = 7;
+	while (i >= 0)
 	{
-		bit = 7;
-		while (bit >= 0)
-		{
-			j = (msg[i] >> bit) & 1;
-			if (j == 1)
-			{
-				if (kill(pid, SIGUSR1) == -1)
-					return (0);
-			}
-			else
-				if (kill(pid, SIGUSR2) == -1)
-					return (-1);
-			bit--;
-			usleep(50);
-		}
-		i++;	
+		if ((c >> i) & 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+		usleep(150);
+		i--;
 	}
-	return (-1);
 }
 
 int main(int ac, char **av)
 {
 	int		res;
 	pid_t	pid;
+	int		i;
 	
 	if (ac != 3)
 		return (ft_printf("%s%s%s\n", SETRED, ERRARG, SETWHT), -1);
@@ -89,17 +77,8 @@ int main(int ac, char **av)
 	pid = ft_strtopid(av[1]);
 	if (pid == -1)
 		return (ft_printf("%s%s%s\n", SETRED, ERRPID, SETWHT), -1);
-	ft_banner(pid);
-	ft_printf("%s%s%s\n", SETYLW, "MESSAGE:\n", av[2]);
-	res = ft_send(pid, av[2]);
-	if (res == 0)
-	{
-		ft_printf("%s%s%s\n", SETGRN, MSGSUCS, SETWHT);
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		ft_printf("%s%s%s\n", SETRED, MSGFAIL, SETWHT);
-		exit(EXIT_FAILURE);
-	}
+	ft_banner(pid, av[2]);
+	i = -1;
+	while (av[2][++i])
+		ft_send(pid, av[2][i]);
 } 
