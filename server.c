@@ -6,13 +6,13 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/24 13:42:27 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/26 12:17:19 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static int bit = 7;
+static unsigned int	bitc = 7;
 
 static void	ft_banner(int pid) {
 	ft_printf(SETBLU);
@@ -31,19 +31,21 @@ static void	ft_banner(int pid) {
 
 static void	ft_receive(int signal)
 {
-	static unsigned char	x;
-	static int				i;
+	static unsigned char	ch = 0;
 
 	if (signal == SIGUSR1)
-		x = x | 1;
-	i++;
-	if (i == 8)
+		ch = (ch << 1) | 1;
+	if (signal == SIGUSR2)
+		ch = ch << 1;
+	if (bitc == 0)
 	{
-		ft_printf("%c", x);
-		i = 0;
-		x = 0;
+		ft_printf("%c", ch);
+		bitc = 7;
+		ch = 0;
+		return ;
 	}
-	x = x << 1;
+	bitc--;
+	return ;
 }
 
 int main(void)
@@ -52,8 +54,8 @@ int main(void)
 	
 	pid = getpid();
 	ft_banner(pid);
-	signal (SIGUSR1, ft_receive);
-	signal (SIGUSR2, ft_receive);
+	signal(SIGUSR1, ft_receive);
+	signal(SIGUSR2, ft_receive);
 	while (1)
 		pause();
 	return (0);
