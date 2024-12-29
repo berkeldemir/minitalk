@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/26 12:50:04 by beldemir         ###   ########.fr       */
+/*   Updated: 2024/12/29 16:22:30 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,25 @@ static void	ft_banner(int pid) {
 	ft_printf(SETWHT);
 }
 
+static int bitc = 7;
+
 static void	ft_receive(int signal)
 {
-	static int	convey;
-	static int	letter;
+	static unsigned char	ch = 0;
 
 	if (signal == SIGUSR1)
-		letter |= (0x01 << convey);
-	convey++;
-	if (convey == 8)
+		ch = (ch << 1) | 1;
+	if (signal == SIGUSR2)
+		ch = ch << 1;
+	if (bitc == 0)
 	{
-		ft_printf("%c", letter);
-		convey = 0;
-		letter = 0;
+		ft_printf("%c", ch);
+		bitc = 7;
+		ch = 0;
+		return ;
 	}
+	bitc--;
+	return ;
 }
 
 int main(void)
