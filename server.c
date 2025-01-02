@@ -6,11 +6,12 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2025/01/02 09:53:15 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:22:59 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
+#include <stdio.h>
 
 static void	ft_banner(int pid) {
 	ft_printf(SETBLU);
@@ -27,30 +28,23 @@ static void	ft_banner(int pid) {
 	ft_printf(SETWHT);
 }
 
-static int bitc = 7;
+static int	ch = 0x00;
 
 static void	ft_receive(int signal)
 {
-	static unsigned char	ch = 0;
+	static int 	bitc = 0;
 
 	if (signal == SIGUSR1)
+		ch = (ch << 1) | 1;
+	else if (signal == SIGUSR2)
+		ch = ch << 1;
+	bitc++;
+	if (bitc == 8)
 	{
-		ft_printf("SIGUSR1\n");
-		ch = (ch >> 1) | 1;
-	}
-	if (signal == SIGUSR2)
-	{
-		ft_printf("SIGUSR2\n");
-		ch = ch >> 1;
-	}
-	if (bitc == 0)
-	{
-		ft_printf("%c", ch);
-		bitc = 7;
+		write(1, &ch, 1);
+		bitc = 0;
 		ch = 0;
-		return ;
 	}
-	bitc--;
 	return ;
 }
 
