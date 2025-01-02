@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/29 16:22:30 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/02 09:53:15 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,15 @@ static void	ft_receive(int signal)
 	static unsigned char	ch = 0;
 
 	if (signal == SIGUSR1)
-		ch = (ch << 1) | 1;
+	{
+		ft_printf("SIGUSR1\n");
+		ch = (ch >> 1) | 1;
+	}
 	if (signal == SIGUSR2)
-		ch = ch << 1;
+	{
+		ft_printf("SIGUSR2\n");
+		ch = ch >> 1;
+	}
 	if (bitc == 0)
 	{
 		ft_printf("%c", ch);

@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:09:54 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/29 16:23:36 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/02 09:48:17 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ static int ft_send(pid_t pid, char ch)
 {
 	int	i;
 
-	i = 7;
-	while (i >= 0)
+	i = 0;
+	while (i >= 7)
 	{
 		if ((ch >> i) & 1)
 		{
@@ -71,7 +71,7 @@ static int ft_send(pid_t pid, char ch)
 				return (-1); //0
 		}
 		usleep(300);
-		i--;
+		i++;
 	}
 	return (0);
 }
