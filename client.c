@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:09:54 by beldemir          #+#    #+#             */
-/*   Updated: 2025/01/02 10:38:57 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:18:07 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static pid_t	ft_strtopid(char *str)
 		num = (num * 10) + (str[i] - 48);
 		i++;
 	}
-	if (num < 1000 || num > 9999999)
-		return (-1);
 	return ((pid_t)num);
 }
 

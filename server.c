@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2025/01/02 11:22:59 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:18:16 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_banner(int pid) {
 	ft_printf("|                               |\n");
 	ft_printf("|          by /beldemir         |\n");
 	ft_printf("'-------------------------------'\n");
-	ft_printf("    THIS SERVER'S PID: %d\n", pid);
+	ft_printf("    THIS SERVER'S PID: %d\n\n", pid);
 	ft_printf(SETWHT);
 }
 
