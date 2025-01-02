@@ -6,12 +6,11 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:09:54 by beldemir          #+#    #+#             */
-/*   Updated: 2025/01/02 12:18:07 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/02 13:25:50 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
 int ft_error(char *msg)
 {
@@ -49,7 +48,6 @@ static void ft_banner(int pid, char *str) {
 	ft_printf("'-------------------------------'\n");
 	ft_printf("SELECTED PID:\n%d\n", pid);
 	ft_printf("%s%s%s%s%s", SETYLW, "MESSAGE:\n", str, "\n", SETWHT);
-	ft_printf(SETWHT);
 }
 
 static int ft_send(pid_t pid, char ch)
@@ -68,7 +66,7 @@ static int ft_send(pid_t pid, char ch)
 		{
 				return (-1); //0
 		}
-		usleep(1000);
+		usleep(100);
 		i--;
 	}
 	return (0);
@@ -76,7 +74,6 @@ static int ft_send(pid_t pid, char ch)
 
 int main(int ac, char **av)
 {
-	int		res;
 	pid_t	pid;
 	int		i;
 	
@@ -91,4 +88,5 @@ int main(int ac, char **av)
 	i = -1;
 	while (av[2][++i])
 		ft_send(pid, av[2][i]);
+	return (0);
 }

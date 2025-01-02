@@ -6,12 +6,11 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 21:09:06 by beldemir          #+#    #+#             */
-/*   Updated: 2025/01/02 12:18:16 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/02 13:26:59 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-#include <stdio.h>
 
 static void	ft_banner(int pid) {
 	ft_printf(SETBLU);
@@ -24,15 +23,13 @@ static void	ft_banner(int pid) {
 	ft_printf("|                               |\n");
 	ft_printf("|          by /beldemir         |\n");
 	ft_printf("'-------------------------------'\n");
-	ft_printf("    THIS SERVER'S PID: %d\n\n", pid);
-	ft_printf(SETWHT);
+	ft_printf("    THIS SERVER'S PID: %d\n\n%s", pid, SETWHT);
 }
-
-static int	ch = 0x00;
 
 static void	ft_receive(int signal)
 {
 	static int 	bitc = 0;
+	static int	ch = 0;
 
 	if (signal == SIGUSR1)
 		ch = (ch << 1) | 1;
