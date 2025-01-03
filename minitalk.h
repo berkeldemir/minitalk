@@ -6,7 +6,7 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 07:42:02 by beldemir          #+#    #+#             */
-/*   Updated: 2024/12/26 11:52:12 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:32:59 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@
 # define MSGFAIL "STATUS:\nA problem occured."
 
 int	ft_printf(const char *str, ...);
-int ft_error(char *msg);
+int	ft_error(char *msg);
 
 #endif

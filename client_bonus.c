@@ -6,17 +6,17 @@
 /*   By: beldemir <beldemir@42istanbul.com.tr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 09:09:54 by beldemir          #+#    #+#             */
-/*   Updated: 2025/01/02 13:35:53 by beldemir         ###   ########.fr       */
+/*   Updated: 2025/01/03 11:33:27 by beldemir         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk_bonus.h"
 
-int ft_error(char *msg)
+int	ft_error(char *msg)
 {
-    ft_printf("%s%s%s\n", SETRED, msg, SETWHT);
-    return (-1);
-} 
+	ft_printf("%s%s%s\n", SETRED, msg, SETWHT);
+	return (-1);
+}
 
 static pid_t	ft_strtopid(char *str)
 {
@@ -35,9 +35,10 @@ static pid_t	ft_strtopid(char *str)
 	return ((pid_t)num);
 }
 
-static void ft_banner(int pid, char *str) {
+static void	ft_banner(int pid, char *str)
+{
 	ft_printf(SETCYN);
-    ft_printf(".-------------------------------.\n");
+	ft_printf(".-------------------------------.\n");
 	ft_printf("|        _     _ _       _ _    |\n");
 	ft_printf("|  _____|_|___|_| |_ ___| | |_  |\n");
 	ft_printf("| |     | |   | |  _| .'| | '_| |\n");
@@ -50,7 +51,7 @@ static void ft_banner(int pid, char *str) {
 	ft_printf("%s%s%s%s%s", SETYLW, "MESSAGE:\n", str, "\n", SETWHT);
 }
 
-static int ft_send(pid_t pid, char ch)
+static int	ft_send(pid_t pid, char ch)
 {
 	int	i;
 
@@ -60,11 +61,11 @@ static int ft_send(pid_t pid, char ch)
 		if ((ch >> i) & 1)
 		{
 			if (kill(pid, SIGUSR1) == -1)
-				return (-1); //1
+				return (-1);
 		}
 		else if (kill(pid, SIGUSR2) == -1)
 		{
-				return (-1); //0
+			return (-1);
 		}
 		usleep(100);
 		i--;
@@ -72,11 +73,11 @@ static int ft_send(pid_t pid, char ch)
 	return (0);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	pid_t	pid;
 	int		i;
-	
+
 	if (ac != 3)
 		return (ft_error(ERRARG));
 	if (av[2][0] == '\0')
